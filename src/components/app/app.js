@@ -1,15 +1,14 @@
 import React from "react";
 import { MainPage, CartPage } from "../pages";
 import AppHeader from "../app-header";
-import WithRestoService from "../hoc";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Background from "./food-bg.jpg";
 
-const App = ({ RestoService }) => {
-  console.log(RestoService.getMenuItems());
+// 111  2 zadanij asdelani
 
+const App = () => {
   return (
     <div
       style={{ background: `url(${Background}) center center/cover no-repeat` }}
@@ -29,4 +28,4 @@ const App = ({ RestoService }) => {
   );
 };
 
-export default WithRestoService()(App);
+export default App;
