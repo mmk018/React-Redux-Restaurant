@@ -2,30 +2,45 @@ const initialState = {
   menu: [],
   loading: true,
   error: false,
+  items: [],
 };
 
 const reducer = (state = initialState, action) => {
-  console.log(state);
-
   switch (action.type) {
     case "MENU_LOADED":
       return {
+        ...state,
         menu: action.payload,
         loading: false,
         error: false,
       };
     case "MENU_REQUESTED":
       return {
+        ...state,
         menu: state.menu,
         loading: true,
-        error: state.error,
+        error: false,
       };
     case "MENU_ERROR":
       return {
+        ...state,
         menu: state.menu,
-        loading: false,
+        loading: true,
         error: true,
       };
+
+    case "ITEM_REMOVE_FROM_CART":
+      const idx = action.payload;
+      const itemIndex = state.items.findIndex((item) => item.id === idx);
+
+      return {
+        ...state,
+        items: [
+          ...state.items.slice(0, itemIndex),
+          ...state.items.slice(itemIndex + 1),
+        ],
+      };
+
     default:
       return state;
   }
