@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { deleteFromCart } from "../../actions";
 import WithRestoService from "../hoc";
+import uuid from "react-uuid";
 
 import "./cart-table.scss";
 
@@ -16,7 +17,7 @@ const CartTable = ({ items, deleteFromCart, RestoService }) => {
         {items.map((item) => {
           const { price, title, url, id, qtty } = item;
           return (
-            <div key={id} className="cart__item">
+            <div key={uuid()} id={id} className="cart__item">
               <img src={url} className="cart__item-img" alt={title}></img>
               <div className="cart__item-title">{title}</div>
               <div className="cart__item-price">
@@ -35,7 +36,7 @@ const CartTable = ({ items, deleteFromCart, RestoService }) => {
         }}
         className="order"
       >
-        Оформить заказ
+        Place order
       </button>
     </>
   );

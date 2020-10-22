@@ -27,6 +27,7 @@ const MenuListItem = ({ menuItem, onAddToCart }) => {
             onClick={(e) => {
               e.preventDefault();
               onAddToCart();
+              console.log("clicked add", menuItem.id);
             }}
             className="menu__btn"
           >

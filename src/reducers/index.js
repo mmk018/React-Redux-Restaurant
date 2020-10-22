@@ -2,7 +2,16 @@ const initialState = {
   menu: [],
   loading: true,
   error: false,
-  items: [],
+  items: [
+    /* {
+      title: "Cowboy Steak",
+      price: 25,
+      url:
+        "https://i.cbc.ca/1.4491288.1516208229!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/cowboysteak.jpg",
+      category: "meat",
+      id: 5,
+    }, */
+  ],
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,6 +36,19 @@ const reducer = (state = initialState, action) => {
         menu: state.menu,
         loading: true,
         error: true,
+      };
+    case "ITEM_ADD_TO_CART":
+      let itemNew;
+      state.menu.map((item) => {
+        if (item.id === action.payload) {
+          console.log(item);
+          itemNew = item;
+        }
+      });
+
+      return {
+        ...state,
+        items: [...state.items, itemNew],
       };
 
     case "ITEM_REMOVE_FROM_CART":
