@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { deleteFromCart } from "../../actions";
 import WithRestoService from "../hoc";
@@ -7,27 +7,41 @@ import uuid from "react-uuid";
 import "./cart-table.scss";
 
 const CartTable = ({ items, deleteFromCart, RestoService }) => {
-  if (items.length === 0) {
-    return <div className="cart__title"> Ваша корзина пуста :( </div>;
+  const [state, setState] = useState(0);
+  let check = 0;
+
+  items.map((item) => {
+    check += item.qtty;
+  });
+  if (check === 0) {
+    return <div className="cart__title"> Your Cart is Empty :( </div>;
   }
   return (
     <>
-      <div className="cart__title">Ваш заказ:</div>
+      <div className="cart__title">Your Order:</div>
       <div className="cart__list">
         {items.map((item) => {
           const { price, title, url, id, qtty } = item;
-          return (
-            <div key={uuid()} id={id} className="cart__item">
-              <img src={url} className="cart__item-img" alt={title}></img>
-              <div className="cart__item-title">{title}</div>
-              <div className="cart__item-price">
-                {price}$ * {qtty}
+          if (qtty > 0) {
+            return (
+              <div key={uuid()} id={id} className="cart__item">
+                <img src={url} className="cart__item-img" alt={title}></img>
+                <div className="cart__item-title">{title}</div>
+                <div className="cart__item-price">
+                  {price}$ * {qtty}
+                </div>
+                <div
+                  onClick={() => {
+                    deleteFromCart(id);
+                    setState(state + 1);
+                  }}
+                  className="cart__close"
+                >
+                  &times;
+                </div>
               </div>
-              <div onClick={() => deleteFromCart(id)} className="cart__close">
-                &times;
-              </div>
-            </div>
-          );
+            );
+          }
         })}
       </div>
       <button
@@ -43,12 +57,16 @@ const CartTable = ({ items, deleteFromCart, RestoService }) => {
 };
 
 const generateOrder = (items) => {
-  const newOrder = items.map((item) => {
-    return {
-      id: item.id,
-      qtty: item.qtty,
-    };
+  const newOrder = items.filter((item) => {
+    if (item.qtty > 0) {
+      return {
+        id: item.id,
+        qtty: item.qtty,
+      };
+    }
   });
+  console.log(newOrder);
+
   return newOrder;
 };
 
