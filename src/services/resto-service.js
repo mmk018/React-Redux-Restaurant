@@ -6,7 +6,11 @@ export default class RestoService {
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}` + `, received ${res.status}`);
     }
-    return await res.json();
+    const result = await res.json();
+    console.log(result);
+    return result.menu;
+
+    //return await res.json();
   }
 
   async getMenuItems() {
